@@ -3,10 +3,10 @@
 </script>
 
 <template>
-  <div>
+  <section class="container">
     <h1>Page:首頁</h1>
     <button type="button" class="btn btn-primary">點擊</button>
-  </div>
+  </section>
 </template>
 
 <style scoped lang="scss">
