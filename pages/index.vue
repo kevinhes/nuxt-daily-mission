@@ -1,16 +1,31 @@
 <script setup>
-  const route = useRoute()
+// import Loading from "vue-loading-overlay";
+// import "vue-loading-overlay/dist/css/index.css";
+
+const newsList = ref([]);
+const isLoading = ref(false);
+
+// API 路徑 : https://nuxr3.zeabur.app/api/v1/home/news/
+// 使用 ES6 fetch() 或是 axios.get() 串接 API
+// 切換 isLoading 狀態
+
+
 </script>
 
 <template>
-  <h1>產品</h1>
-  <ProductCard
-      imageSrc="https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/%E6%A1%8C%E6%A9%9F%E7%89%88/room2-1.png"
-      altText="享受高級的住宿體驗，尊爵雙人房提供給您舒適寬敞的空間和精緻的裝潢"
-      title="尊爵雙人房"
-      price="NT$10000"
-      buttonText="馬上預約"
-    />
+  <div class="container">
+    <h1>最新消息</h1>
+    <!-- <NewsCard v-for="..." :key="..."  v-bind="..." /> -->
+
+    <!-- <ClientOnly>
+      <Loading v-model:active="isLoading" />
+    </ClientOnly> -->
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+</style>
