@@ -1,9 +1,4 @@
-<script setup lang="ts"></script>
-
 <template>
-  <div>
-    Page: room
-  </div>
+  <h1>房型頁面</h1>
+  <nuxt-page></nuxt-page>
 </template>
-
-<style scoped></style>
