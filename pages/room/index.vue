@@ -9,14 +9,17 @@ const { data:roomsList } = await useFetch('https://nuxr3.zeabur.app/api/v1/rooms
 const route = useRoute()
 const router = useRouter()
 
+console.log(roomsList);
+
+
 </script>
 
 <template>
   <h1>房型頁面 {{ route.fullPath }}</h1>
   <div class="container mt-4">
     <div class="row justify-content-center">
-      <div class="col-8 col-md-6 col-lg-3" v-for=" room in roomsList.result " :key="room.id">
-        <div class="card h-100 shadow-sm" @click="router.push('/room/_id')">
+      <div class="col-8 col-md-6 col-lg-3" v-for=" room in roomsList.result " :key="room._id">
+        <nuxt-link class="card h-100 shadow-sm" :to="`/room/${room._id}`">
           <img :src="room.imageUrl" class="card-img-top" alt="Room Image" />
           <div class="card-body d-flex flex-column">
             <h3 class="card-title">{{ room.name }}</h3>
@@ -28,7 +31,7 @@ const router = useRouter()
               <li><strong>價格:</strong> {{ room.price }}</li>
             </ul>
           </div>
-        </div>
+        </nuxt-link>
       </div>
     </div>
   </div>
