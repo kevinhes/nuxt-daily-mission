@@ -25,6 +25,11 @@
               >房型</NuxtLink
             >
           </li>
+          <li class="nav-item">
+            <NuxtLink class="nav-link" to="/register" target="_blank"
+              >註冊</NuxtLink
+            >
+          </li>
         </ul>
       </div>
     </div>
