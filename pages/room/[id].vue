@@ -3,7 +3,35 @@
   const router = useRouter();
   const roomId = route.params
   const apiUrl = `https://nuxr3.zeabur.app/api/v1/rooms/${roomId.id}`
-  const { data:roomData } = await useFetch(apiUrl)
+  // const { data:roomData } = await useFetch(apiUrl)
+
+  const { data: roomData } = await useFetch(`/rooms/${roomId.id}`, {
+  baseURL: "https://nuxr3.zeabur.app/api/v1",
+  transform: (response) => {
+    const { result } = response;
+    return result;
+  },
+  onResponseError({ response }) {
+    const { message } = response._data;
+    console.error("Error:", message);
+    router.push("/");
+  },
+});
+// console.log(roomData.value);
+
+useSeoMeta({
+  title:() => `Freyja | ${roomData.value.name}`,
+  description: () => `${ roomData.value.description }`,
+  ogTitle:() => `Freyja | ${roomData.value.name}`,
+  ogDescription: () => `${ roomData.value.description }`,
+  ogImage: () => `${roomData.value.imageUrl}`,
+  ogUrl: () => `https://freyja.travel.com.tw/room/${roomData.value._id}`,
+  twitterCard: () => `summary_large_image`,
+  twitterTitle: () => `Freyja | ${roomData.value.name}`,
+  twitterDescription: () => `${ roomData.value.description }`,
+  twitterImage: () => `${roomData.value.imageUrl}`
+})
+
 </script>
 
 <template>
@@ -15,37 +43,37 @@
       <div class="col-md-6">
         <div class="room-page">
           <div class="room-header">
-            <h1 class="room-name">{{ roomData.result.name }}</h1>
+            <h1 class="room-name">{{ roomData.name }}</h1>
             <p class="room-description">
-              {{ roomData.result.description }}
+              {{ roomData.description }}
             </p>
           </div>
 
           <div class="room-gallery">
             <img
-              :src="roomData.result.imageUrl"
+              :src="roomData.imageUrl"
               alt="尊爵雙人房主圖"
               class="room-main-image"
             />
             <div class="room-image-list">
-              <img :src="image" alt="" v-for=" image in roomData.result.imageUrlList " :key="image">
+              <img :src="image" alt="" v-for=" image in roomData.imageUrlList " :key="image">
             </div>
           </div>
 
           <div class="room-info">
             <div class="info-block">
               <h2>房間資訊</h2>
-              <p>面積: {{ roomData.result.areaInfo }}</p>
-              <p>床型: {{ roomData.result.bedInfo }}</p>
-              <p>最多容納人數: {{ roomData.result.maxPeople }}</p>
-              <p>價格: NT${{ roomData.result.price }}</p>
+              <p>面積: {{ roomData.areaInfo }}</p>
+              <p>床型: {{ roomData.bedInfo }}</p>
+              <p>最多容納人數: {{ roomData.maxPeople }}</p>
+              <p>價格: NT${{ roomData.price }}</p>
             </div>
 
             <div class="info-block">
               <h2>房間配置</h2>
               <ul>
                 <li
-                  v-for="layout in roomData.result.layoutInfo"
+                  v-for="layout in roomData.layoutInfo"
                   :key="layout.title"
                 >
                   {{ layout.title }}：
@@ -60,7 +88,7 @@
               <h2>房內設施</h2>
               <ul>
                 <li
-                  v-for="layout in roomData.result.facilityInfo"
+                  v-for="layout in roomData.facilityInfo"
                   :key="layout.title"
                 >
                   {{ layout.title }}：
@@ -74,7 +102,7 @@
               <h2>客房備品</h2>
               <ul>
                 <li
-                  v-for="layout in roomData.result.amenityInfo"
+                  v-for="layout in roomData.amenityInfo"
                   :key="layout.title"
                 >
                   {{ layout.title }}：
