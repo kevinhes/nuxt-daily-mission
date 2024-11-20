@@ -19,22 +19,46 @@
 });
 // console.log(roomData.value);
 
-useSeoMeta({
-  title:() => `Freyja | ${roomData.value.name}`,
-  description: () => `${ roomData.value.description }`,
-  ogTitle:() => `Freyja | ${roomData.value.name}`,
-  ogDescription: () => `${ roomData.value.description }`,
-  ogImage: () => `${roomData.value.imageUrl}`,
-  ogUrl: () => `https://freyja.travel.com.tw/room/${roomData.value._id}`,
-  twitterCard: () => `summary_large_image`,
-  twitterTitle: () => `Freyja | ${roomData.value.name}`,
-  twitterDescription: () => `${ roomData.value.description }`,
-  twitterImage: () => `${roomData.value.imageUrl}`
+// useSeoMeta({
+//   title:() => `Freyja | ${roomData.value.name}`,
+//   description: () => `${ roomData.value.description }`,
+//   ogTitle:() => `Freyja | ${roomData.value.name}`,
+//   ogDescription: () => `${ roomData.value.description }`,
+//   ogImage: () => `${roomData.value.imageUrl}`,
+//   ogUrl: () => `https://freyja.travel.com.tw/room/${roomData.value._id}`,
+//   twitterCard: () => `summary_large_image`,
+//   twitterTitle: () => `Freyja | ${roomData.value.name}`,
+//   twitterDescription: () => `${ roomData.value.description }`,
+//   twitterImage: () => `${roomData.value.imageUrl}`
+// })
+const pageTitle = ref('Freyia');
+const titleTemplate = computed(() => {
+  return `${pageTitle.value} | ${roomData.value.name}`
 })
+
+const mainPictureUrl = computed(
+  () => `https://freyja.travel.com.tw/room/${roomObject.value._id}`
+)
+
 
 </script>
 
 <template>
+  <Head>
+    <Title>{{ rtitleTemplate }}</Title>
+    <Meta name="description" :content="roomData.description" />
+  
+    <Meta property="og:title" :content="titleTemplate" />
+    <Meta property="og:description" :content="roomData.description" />
+    <Meta property="og:Image" :content="roomData.imgUrl" />
+    <Meta property="og:Url" :content='mainPictureUrl' />
+  
+    <Meta name="twitter:card" content="summary_large_image" />
+    <Meta name="twitter:title" :content="titleTemplate" />
+    <Meta name="twitter:description" :content="roomData.description" />
+    <Meta name="twitter:image" :content="roomData.imgUrl" />
+  </Head>
+
   <h2>房型詳細頁面</h2>
 
   <div class="container">
