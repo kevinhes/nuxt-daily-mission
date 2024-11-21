@@ -1,6 +1,6 @@
 <script setup>
 const { $swal } = useNuxtApp();
-
+const router = useRouter();
 // 表單格式
 const userRegisteObject = ref({
   name: "",
@@ -14,34 +14,63 @@ const userRegisteObject = ref({
   },
 });
 
-const userSingup = async() => {
+const processRegistration = async (requsetBody) => {
   try {
-    const response = await $fetch(`https://nuxr3.zeabur.app/api/v1/user/signup`, {
-      method: 'POST',
-      body: userRegisteObject.value
-    })
-    if (response.status === true) {
-      $swal.fire({
-        position: "center",
-        icon: 'success',
-        title: '帳戶註冊成功',
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-  } catch(error) {
-    console.log(error);
-    const { message } = error.response._data
+    const response = await $fetch("/v1/user/signup", {
+      baseURL: "https://nuxr3.zeabur.app/api",
+      method: "POST",
+      body: {
+        ...requsetBody,
+      },
+    });
+    await $swal.fire({
+      position: "center",
+      icon: "success",
+      title: "註冊成功",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    router.push("/login");
+  } catch (error) {
+    const { message } = error.response._data;
     $swal.fire({
-        position: "center",
-        icon: 'error',
-        title: message,
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      position: "center",
+      icon: "error",
+      title: message,
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
+};
+
+// const userSingup = async() => {
+//   try {
+//     const response = await $fetch(`https://nuxr3.zeabur.app/api/v1/user/signup`, {
+//       method: 'POST',
+//       body: userRegisteObject.value
+//     })
+//     if (response.status === true) {
+//       $swal.fire({
+//         position: "center",
+//         icon: 'success',
+//         title: '帳戶註冊成功',
+//         showConfirmButton: false,
+//         timer: 1500,
+//       });
+//     }
+//   } catch(error) {
+//     console.log(error);
+//     const { message } = error.response._data
+//     $swal.fire({
+//         position: "center",
+//         icon: 'error',
+//         title: message,
+//         showConfirmButton: false,
+//         timer: 1500,
+//       });
+//   }
   
-}
+// }
 // 使用 sweetAlert2 套件顯示訊息
 // $swal.fire({
 //   position: "center",
@@ -59,7 +88,7 @@ const userSingup = async() => {
         <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
           <div class="bg-white p-4 p-md-5 rounded shadow-sm">
             <h2 class="h3 mb-4">會員註冊</h2>
-            <form @submit.prevent="userSingup">
+            <form @submit.prevent="processRegistration(userRegisteObject)">
               <div class="form-floating mb-4">
                 <input
                   type="text"
