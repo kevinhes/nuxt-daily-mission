@@ -1,41 +1,101 @@
 <script setup>
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/css/index.css";
+const { $modal, $offcanvas } = useNuxtApp()
+// modal
+const modalRef = ref(null);
+let modal;
+const showModal = () => {
+  // 開啟 modal
+  modal.show()
+};
+const closeModal = () => {
+  // 關閉 modal
+  modal.hide()
+};
 
-const { newsList, isLoading, getNewsList } = useHome()
+// offcanvas
 
-// API 路徑 : https://nuxr3.zeabur.app/api/v1/home/news/
-// 使用 ES6 fetch() 或是 axios.get() 串接 API
-// 切換 isLoading 狀態
+const offcanvasRef = ref(null);
+let offcanvas;
+const showOffcanvas = () => {
+  // 開啟 offcanvas
+  offcanvas.show()
+};
+const closeOffcanvas = () => {
+  // 關閉 offcanvas
+  offcanvas.hide()
+};
 
-onMounted(()=>{
-  getNewsList()
-})
-
+onMounted(() => {
+  // 初始化 modal 與 offcanvas 元件
+  modal = new $modal(modalRef.value)
+  offcanvas = new $offcanvas(offcanvasRef.value)
+});
 </script>
 
 <template>
-  <div class="container">
-    <h1>最新消息</h1>
-    <NewsCard
-      v-for=" news in newsList.result "
-      :key="news._id"
-      :title="news.title"
-      :image="news.image"
-      :description="news.description"
-      :createdAt="news.createdAt"
-      :updatedAt="news.updatedAt"
-      />
+  <div class="container mb-5">
+    <button type="button" class="btn btn-primary" @click="showModal">開啟 Modal</button>
+  </div>
+  <!-- modal 元件 -->
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+    ref="modalRef"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="closeModal"
+          ></button>
+        </div>
+        <div class="modal-body">...</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" @click="closeModal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <ClientOnly>
-      <Loading v-model:active="isLoading" />
-    </ClientOnly>
+  <div class="container">
+    <button type="button" class="btn btn-secondary" @click="showOffcanvas">
+      開啟 Offcanvas
+    </button>
+  </div>
+  <!-- Offcanvas  元件 -->
+  <div
+    class="offcanvas offcanvas-bottom"
+    tabindex="-1"
+    id="offcanvasBottom"
+    aria-labelledby="offcanvasBottomLabel"
+    ref="offcanvasRef"
+  >
+    <div class="offcanvas-header">
+      <h3 class="offcanvas-title" id="offcanvasBottomLabel">
+        Offcanvas bottom
+      </h3>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        @click="closeOffcanvas"
+      ></button>
+    </div>
+    <div class="offcanvas-body small">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, eius
+      perferendis illum cum vero cumque totam repudiandae accusantium facere est
+    </div>
   </div>
 </template>
 
-<style scoped>
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-</style>
+<style scoped></style>
