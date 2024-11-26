@@ -30,6 +30,10 @@ onMounted(() => {
   modal = new $modal(modalRef.value)
   offcanvas = new $offcanvas(offcanvasRef.value)
 });
+
+// 文字外掛練習
+const message = ref("A1B2c3deFGhijk");
+const time = ref(1730427600000);
 </script>
 
 <template>
@@ -95,6 +99,18 @@ onMounted(() => {
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, eius
       perferendis illum cum vero cumque totam repudiandae accusantium facere est
     </div>
+  </div>
+
+  <div class="container">
+    <h2>自訂英文文字大小寫轉換指令</h2>
+    <!-- 使用 plugins/textformat.js 建立的指令，將變數 message 的字串帶入 -->
+
+    <!-- 大寫轉小寫格式之後，將結果寫入元素 -->
+    <p v-textformat:lowercase="message"></p>
+    <!-- 小寫轉大寫格式之後，將結果寫入元素 -->
+    <p v-textformat:uppercase="message"></p>
+    <h2>自訂時間轉換指令</h2>
+    <p v-timeformat="time"></p>
   </div>
 </template>
 
