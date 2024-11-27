@@ -1,4 +1,6 @@
 <script setup>
+import { useLoading } from 'vue-loading-overlay'
+
 const { $modal, $offcanvas } = useNuxtApp()
 // modal
 const modalRef = ref(null);
@@ -34,6 +36,20 @@ onMounted(() => {
 // 文字外掛練習
 const message = ref("A1B2c3deFGhijk");
 const time = ref(1730427600000);
+
+const $loading = useLoading({})
+// const fullPage = ref(false)
+
+function openLoading() {
+  // 開啟讀取效果
+  const loader = $loading.show({})
+  console.log(loader);
+  
+  setTimeout(() => {
+    // 關閉讀取效果
+    loader.hide()
+  }, 1000);
+}
 </script>
 
 <template>
@@ -112,6 +128,8 @@ const time = ref(1730427600000);
     <h2>自訂時間轉換指令</h2>
     <p v-timeformat="time"></p>
   </div>
+
+  <button type="button" @click="openLoading">開啟 Loading 效果</button>
 </template>
 
 <style scoped></style>
